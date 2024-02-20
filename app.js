@@ -25,15 +25,17 @@ const {
   get_wishlist_watched_elements,
   series_page,
   top_rated,
-} = require("./controllers/UserControl");
+} = require("./controllers/UserControl"); 
 
-const __dirname = path.resolve("../");
+
 if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve("../");
   app.use(express.static(path.join(__dirname + "/frontendmovieclient/build")));
-  app.get("*", (req, res, next) => {
+  app.get("/*", (req, res, next) => {
     res.sendFile(
       path.resolve(__dirname, "frontendmovieclient", "build", "index.html")
     );
+
     next();
   });
 } else {
@@ -53,6 +55,10 @@ mongoose
 // Set up body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+
+
 
 // responsible to frontend connect
 // cors
@@ -87,6 +93,8 @@ app.use(
 );
 app.use(cookieParser());
 
+
+
 const PORT = process.env.PORT || 8000;
 
 // mongo setup
@@ -95,11 +103,6 @@ mongoose.set("strictQuery", false);
 // mvc
 // login singup
 app.post("/signup", user_post_signup);
-app.get("/signup", (req, res) => {
-  res.sendFile(__dirname + "/frontendmovieclient/build/index.html");
-
-
-});
 app.post("/login", user_post_login);
 
 // search
@@ -130,6 +133,8 @@ app.put("/AddRemoveWish", add_remove_wishlist);
 // app.post("/Series", series_page);
 
 // still not mvc
+
+
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
